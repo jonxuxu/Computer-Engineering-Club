@@ -15,6 +15,8 @@ var io = socketio(server);
 
 // Serve the static website
 app.use(express.static('public'));
+// Serve materialize
+app.use('/materialize', express.static('node_modules/materialize-css/dist'));
 
 // Start the server on port 3000
 server.listen(3000);
