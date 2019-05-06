@@ -19,6 +19,7 @@
   "homepage": "https://github.com/JonathanXu1/Computer-Engineering-Club#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "jquery": "^3.4.1",
     "materialize-css": "^1.0.0-rc.2",
     "socket.io": "^2.2.0"
   }
