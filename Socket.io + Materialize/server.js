@@ -13,15 +13,18 @@ var app = express();
 var server = http.createServer(app);
 var io = socketio(server);
 
-app.use(express.static('/public'));
+// Serve the static website
+app.use(express.static('public'));
+// Serve materialize
+app.use('/materialize', express.static('node_modules/materialize-css/dist'));
 
 // Start the server on port 3000
 server.listen(3000);
-
+console.log('Server started on port 3000')
 
 // Handle socket.io events
 io.on('connection', socket => {
   socket.on('event-name', data => {
-    // go
-  })
-})
+    socket.broadcast.emit('event-name', data);
+  });
+});
