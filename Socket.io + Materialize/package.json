@@ -1,0 +1,24 @@
+{
+  "name": "socket.io-materialize",
+  "version": "1.0.0",
+  "description": "A quick Express server and Materialize client demonstrating Socket.io",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanXu1/Computer-Engineering-Club.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonathanXu1/Computer-Engineering-Club/issues"
+  },
+  "homepage": "https://github.com/JonathanXu1/Computer-Engineering-Club#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}
