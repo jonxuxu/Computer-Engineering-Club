@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <ESP8266WiFi.h>
-const char* ssid     = "newhome";      // SSID
-const char* password = "maolan123";      // Password
+const char* ssid     = "BELLWIFI@MCDONALDS";      // SSID
+const char* password = "bigChungus";      // Password
 const char* host = "192.168.137.1";  // Server IP
 const int   port = 8080;            // Server Port
 const int   watchdog = 5000;        // Watchdog frequency
