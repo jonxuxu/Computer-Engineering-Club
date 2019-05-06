@@ -1,7 +1,7 @@
 /*******************Esp8266_Websocket.ino****************************************/
 
-#include <esp8266wifi.h>
-#include <websocketclient.h>
+#include <esp8266wifi.h> 
+#include <websocketclient.h> //remember to add library
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
@@ -11,7 +11,7 @@ char path[] = "";   //identifier of this device
 
 const char* ssid     = "enter your wifi ssid here";
 const char* password = "enter your wifi password here";
-char* host = "192.168.0.23";  //replace this ip address with the ip address of your raspberry pi
+char* host = "192.168.0.23";  //replace this ip address with the ip address (remember ipconfig)
 const int espport= 3000;
   
 WebSocketClient webSocketClient;
@@ -23,7 +23,7 @@ unsigned long interval=300; //interval for sending data to the websocket server 
 WiFiClient client;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200); //depends on what you set it to
     pinMode(readPin, INPUT);     // Initialize the LED_BUILTIN pin as an output
 
   delay(10);
