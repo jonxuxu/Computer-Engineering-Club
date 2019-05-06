@@ -5,12 +5,23 @@
 
 // Import libraries
 var express = require('express');
-var app = express();
+var http = require('http');
+var socketio = require('socket.io');
 
-// Send test data back to the client
-app.get('/', function(req, res) {
-  res.send('Hello, world!');
-});
+// Initialize the server
+var app = express();
+var server = http.createServer(app);
+var io = socketio(server);
+
+app.use(express.static('/public'));
 
 // Start the server on port 3000
-app.listen(3000);
+server.listen(3000);
+
+
+// Handle socket.io events
+io.on('connection', socket => {
+  socket.on('event-name', data => {
+    // go
+  })
+})
