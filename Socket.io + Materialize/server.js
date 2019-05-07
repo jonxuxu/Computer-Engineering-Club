@@ -16,15 +16,19 @@ var io = socketio(server);
 // Serve the static website
 app.use(express.static('public'));
 
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
 // Handle socket.io events
 io.on('connection', socket => {
   console.log('User connected: ' + socket.id);
   socket.on('disconnect', function(){
     console.log('User disconnected: ' + socket.id);
   });
-  socket.on('update-data', data => {
+  socket.on('updateData', data => {
     console.log("New data: " + data);
-    socket.broadcast.emit('update-data', data);
+    socket.broadcast.emit('updateData', data);
   });
 });
 
