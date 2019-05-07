@@ -3,6 +3,8 @@
 #include <esp8266wifi.h> 
 #include <websocketclient.h> //remember to add library
 #include <SocketIoClient.h>
+#include "DHT.h"
+
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
