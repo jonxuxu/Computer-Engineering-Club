@@ -30,6 +30,10 @@ io.on('connection', socket => {
     console.log("New data: " + data);
     socket.broadcast.emit('updateData', data);
   });
+  socket.on('getData' =>{
+    console.log("Someone requested data");
+    socket.emit('updateData', data);
+  })
 });
 
 // Start the server on port 3000
