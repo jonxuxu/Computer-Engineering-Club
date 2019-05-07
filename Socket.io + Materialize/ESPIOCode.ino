@@ -2,6 +2,9 @@
 
 #include <esp8266wifi.h> 
 #include <websocketclient.h> //remember to add library
+#include <SocketIoClient.h>
+#include "DHT.h"
+
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
@@ -14,7 +17,7 @@ const char* password = "enter your wifi password here";
 char* host = "192.168.0.23";  //replace this ip address with the ip address (remember ipconfig)
 const int espport= 3000;
   
-WebSocketClient webSocketClient;
+SocketIoClient webSocketClient;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval=300; //interval for sending data to the websocket server in ms
@@ -56,7 +59,8 @@ void loop() {
 
   if (client.connected()) {
 currentMillis=millis(); 
-    webSocketClient.getData(data);    
+    webSocketClient.getData(data); 
+    
     if (data.length() > 0) {
 Serial.println(data);
 
