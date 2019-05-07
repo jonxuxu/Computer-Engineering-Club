@@ -5,10 +5,7 @@
 #include <SocketIoClient.h>
 #include "DHT.h"
 
-//select correct dht type
 #define DHTTYPE DHT11   // DHT 11 
-//#define DHTTYPE DHT21   // DHT 21 (AM2301)
-//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 
 const int DHTPin = 5; //change this pin
 // Initialize DHT sensor.
