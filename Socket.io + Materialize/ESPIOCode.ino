@@ -5,6 +5,14 @@
 #include <SocketIoClient.h>
 #include "DHT.h"
 
+//select correct dht type
+#define DHTTYPE DHT11   // DHT 11 
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+
+const int DHTPin = 5; //change this pin
+// Initialize DHT sensor.
+DHT dht(DHTPin, DHTTYPE);
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
@@ -28,6 +36,8 @@ WiFiClient client;
 void setup() {
   Serial.begin(115200); //depends on what you set it to
     pinMode(readPin, INPUT);     // Initialize the LED_BUILTIN pin as an output
+  
+  dht.begin();
 
   delay(10);
 
