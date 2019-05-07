@@ -15,7 +15,7 @@ DHT dht(DHTPin, DHTTYPE);
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
-insigned int data= 0;
+float data[2];
 
 char path[] = "";   //identifier of this device
 
@@ -82,8 +82,9 @@ Serial.println(data);
  //currentMillis=millis();   
  if (abs(currentMillis - previousMillis) >= interval) {
 previousMillis = currentMillis;
-data=analogRead(A0); //read adc values, this will give random value, since no sensor is connected. 
-//For this project we are pretending that these random values are sensor values
+   //***************************************SET DATA HERE******************************************
+   data[0] = dht.readHumidity();
+   data[1] = 
 
 webSocketClient.emit("updata", data);
 
