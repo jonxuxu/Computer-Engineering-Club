@@ -4,6 +4,8 @@
 #include <websocketclient.h> //remember to add library
 #include <SocketIoClient.h>
 #include "DHT.h"
+#include <ArduinoJson.h>
+
 
 #define DHTTYPE DHT11   // DHT 11 
 
@@ -29,6 +31,8 @@ unsigned long interval=300; //interval for sending data to the websocket server 
 
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
+
+
 
 void setup() {
   Serial.begin(115200); //depends on what you set it to
@@ -81,7 +85,8 @@ previousMillis = currentMillis;
 data=analogRead(A0); //read adc values, this will give random value, since no sensor is connected. 
 //For this project we are pretending that these random values are sensor values
 
-webSocketClient.sendData(data);//send sensor data to websocket server
+webSocketClient.emit("updateData", data);
+
 }
 
   }
