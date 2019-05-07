@@ -85,7 +85,7 @@ previousMillis = currentMillis;
 data=analogRead(A0); //read adc values, this will give random value, since no sensor is connected. 
 //For this project we are pretending that these random values are sensor values
 
-webSocketClient.emit("updateData", data);
+webSocketClient.emit("updata", data);
 
 }
 
