@@ -2,7 +2,10 @@
 
 #include <esp8266wifi.h> 
 #include <websocketclient.h> //remember to add library
+#include <SocketIoClient.h>
 #include "DHT.h"
+#include <ArduinoJson.h>
+
 
 #define DHTTYPE DHT11   // DHT 11 
 
@@ -12,7 +15,7 @@ DHT dht(DHTPin, DHTTYPE);
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
-insigned int data= 0;
+float data[2];
 
 char path[] = "";   //identifier of this device
 
@@ -21,7 +24,7 @@ const char* password = "enter your wifi password here";
 char* host = "192.168.0.23";  //replace this ip address with the ip address (remember ipconfig)
 const int espport= 3000;
   
-WebSocketClient webSocketClient;
+SocketIoClient webSocketClient;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval=300; //interval for sending data to the websocket server in ms
@@ -29,10 +32,13 @@ unsigned long interval=300; //interval for sending data to the websocket server 
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
 
+
+
 void setup() {
   Serial.begin(115200); //depends on what you set it to
     pinMode(readPin, INPUT);     // Initialize the LED_BUILTIN pin as an output
-    dht.begin();
+  
+  dht.begin();
 
   delay(10);
 
@@ -63,28 +69,25 @@ wsconnect();
 void loop() {
 
   if (client.connected()) {
-currentMillis=millis(); 
-    webSocketClient.getData(data);    
+    currentMillis=millis(); 
+    webSocketClient.getData(data); 
+    
     if (data.length() > 0) {
-Serial.println(data);
-
-
-
-
-    //*************send log data to server in certain interval************************************
- //currentMillis=millis();   
- if (abs(currentMillis - previousMillis) >= interval) {
-previousMillis = currentMillis;
-data=analogRead(A0); //read adc values, this will give random value, since no sensor is connected. 
-//For this project we are pretending that these random values are sensor values
-
-webSocketClient.sendData(data);//send sensor data to websocket server
-}
-
-  }
-  else{
-}
-delay(5);
+      Serial.println(data);
+      //*************send log data to server in certain interval************************************
+      //currentMillis=millis();   
+      if (abs(currentMillis - previousMillis) >= interval) {
+        previousMillis = currentMillis;
+           //***************************************SET DATA HERE******************************************
+           data[0] = dht.readHumidity();
+           data[1] = 
+        
+        webSocketClient.emit("updateData", data);
+        }
+      }
+      else{
+    }
+    delay(5);
 
   }
 
