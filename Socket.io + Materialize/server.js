@@ -16,17 +16,18 @@ var io = socketio(server);
 // Serve the static website
 app.use(express.static('public'));
 
-// Serve libraries
-app.use('/materialize', express.static('node_modules/materialize-css/dist'));
-app.use('/jquery', express.static('node_modules/jquery/dist'));
+// Handle socket.io events
+io.on('connection', socket => {
+  console.log('User connected: ' + socket.id);
+  socket.on('disconnect', function(){
+    console.log('User disconnected: ' + socket.id);
+  });
+  socket.on('update-data', data => {
+    console.log("New data: " + data);
+    socket.broadcast.emit('update-data', data);
+  });
+});
 
 // Start the server on port 3000
 server.listen(3000);
 console.log('Server started on port 3000')
-
-// Handle socket.io events
-io.on('connection', socket => {
-  socket.on('event-name', data => {
-    socket.broadcast.emit('event-name', data);
-  });
-});
