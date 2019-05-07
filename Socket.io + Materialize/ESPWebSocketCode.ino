@@ -4,7 +4,6 @@
 #include <websocketclient.h> //remember to add library
 #include "DHT.h"
 
-//select correct dht type
 #define DHTTYPE DHT11   // DHT 11 
 
 const int DHTPin = 5; //change this pin
