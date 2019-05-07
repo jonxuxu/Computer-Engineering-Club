@@ -80,9 +80,10 @@ void loop() {
         previousMillis = currentMillis;
            //***************************************SET DATA HERE******************************************
            data[0] = dht.readHumidity();
-           data[1] = 
+           data[1] = dht.readHumidity();
+        JsonObject& myJson = JSON.stringify(data);
         
-        webSocketClient.emit("updateData", data);
+        webSocketClient.emit("updateData", myJson);
         }
       }
       else{
