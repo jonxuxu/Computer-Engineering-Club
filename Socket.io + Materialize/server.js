@@ -26,9 +26,13 @@ io.on('connection', socket => {
   socket.on('disconnect', function(){
     console.log('User disconnected: ' + socket.id);
   });
-  socket.on('updateData', data => {
-    console.log("New data: " + data);
-    socket.broadcast.emit('updateData', data);
+  socket.on('temp', data => {
+    console.log("Temperature input: " + data);
+    //socket.broadcast.emit('updateData', data);
+  });
+  socket.on('humidity', data => {
+    console.log("Humidity input: " + data);
+    //socket.broadcast.emit('updateData', data);
   });
   socket.on('getData', ()=>{
     console.log("Someone requested data");

@@ -13,8 +13,8 @@ DHT dht(DHTPIN, DHTTYPE);
 // Networking
 const char* ssid     = "newhome";
 const char* password = "maolan123";
-char* host = "192.168.0.23";  //replace this ip address with the ip address (remember ipconfig)
-int port = 1234;
+char* host = "192.168.0.13";  //replace this ip address with the ip address (remember ipconfig)
+int port = 3000;
 
 // Socket and timer
 SocketIOClient socket;
@@ -51,11 +51,11 @@ void setup() {
   }
   if (socket.connected()){
     Serial.println("connected to server");
-    socket.emit("message", "connected!");
   }
 }
 
 void loop() {
+  currentMillis = millis(); 
   if (currentMillis - previousMillis > interval){
     previousMillis = currentMillis;
       float h = dht.readHumidity();
