@@ -13,14 +13,14 @@ DHT dht(DHTPIN, DHTTYPE);
 // Networking
 const char* ssid     = "newhome";
 const char* password = "maolan123";
-char* host = "192.168.0.13";  //replace this ip address with the ip address (remember ipconfig)
+char  host[] = "192.168.0.13";  //replace this ip address with the ip address (remember ipconfig)
 int port = 3000;
 
 // Socket and timer
 SocketIOClient socket;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
-unsigned long interval=300; //interval for sending data to the websocket server in ms
+unsigned long interval = 1000; //interval for sending data to the websocket server in ms
 
 void setup() {
   // Initilaizing objects

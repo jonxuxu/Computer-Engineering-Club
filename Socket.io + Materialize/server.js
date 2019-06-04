@@ -16,6 +16,9 @@ var io = socketio(server);
 // Serve the static website
 app.use(express.static('public'));
 
+// Storage variables
+var data = '{"temperature" : 420, "humidity" : "69"}';
+
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
@@ -28,10 +31,12 @@ io.on('connection', socket => {
   });
   socket.on('temp', data => {
     console.log("Temperature input: " + data);
+    data.temperature = parseInt(data);
     //socket.broadcast.emit('updateData', data);
   });
   socket.on('humidity', data => {
     console.log("Humidity input: " + data);
+    data.humidity = parseInt(data);
     //socket.broadcast.emit('updateData', data);
   });
   socket.on('getData', ()=>{
