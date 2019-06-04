@@ -1,7 +1,7 @@
 /*******************Esp8266_Websocket.ino****************************************/
 
 #include <ESP8266WiFi.h> 
-#include <SocketIoClient.h>
+#include <SocketIOClient.h>
 #include "DHT.h"
 
 #define DHTPIN D2     // what digital pin the DHT22 is conected to
@@ -17,7 +17,7 @@ char* host = "192.168.0.23";  //replace this ip address with the ip address (rem
 int port = 1234;
 
 // Socket and timer
-SocketIoClient socket;
+SocketIOClient socket;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval=300; //interval for sending data to the websocket server in ms
@@ -51,29 +51,28 @@ void setup() {
   }
   if (socket.connected()){
     Serial.println("connected to server");
-    socket.send("connection", "connected!");
+    socket.emit("message", "connected!");
   }
 }
 
 void loop() {
   if (currentMillis - previousMillis > interval){
     previousMillis = currentMillis;
-    Serial.println(JSON);
+      float h = dht.readHumidity();
+    // Read temperature as Celsius (the default)
+    float t = dht.readTemperature();
+  
+    if (isnan(h) || isnan(t)) {
+      Serial.println("Failed to read from DHT sensor!");
+      return;
+    }
+  
+    Serial.print("Humidity: ");
+    Serial.println(h);
+    Serial.print("Temperature: ");
+    Serial.println(t);
+  
+    socket.emit("temp", String(t));
+    socket.emit("humidity", String(h));
   }
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-
-  if (isnan(h) || isnan(t)) {
-    Serial.println("Failed to read from DHT sensor!");
-    return;
-  }
-
-  Serial.print("Humidity: ");
-  Serial.println(h);
-  Serial.print("Temperature: ");
-  Serial.println(t);
-
-  socket.send("temp", t);
-  socket.send("humidity", h);
 }
