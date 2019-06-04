@@ -1,17 +1,16 @@
 /*******************Esp8266_Websocket.ino****************************************/
 
 #include <ESP8266WiFi.h> 
-#include <WebSocketClient.h> //remember to add library
-#include <SocketIoClient.h>
+//#include <WebSocketClient.h> //remember to add library
+//#include <SocketIoClient.h>
 #include "DHT.h"
 #include <ArduinoJson.h>
 
+#define DHTPIN D2     // what digital pin the DHT22 is conected to
+#define DHTTYPE DHT11   // there are multiple kinds of DHT sensors
 
-#define DHTTYPE DHT11   // DHT 11 
-
-const int DHTPin = 5; //change this pin
 // Initialize DHT sensor.
-DHT dht(DHTPin, DHTTYPE);
+DHT dht(DHTPIN, DHTTYPE);
 
 volatile unsigned long previousMillis2;
 boolean handshakeFailed=0;
@@ -24,22 +23,19 @@ const char* password = "enter your wifi password here";
 char* host = "192.168.0.23";  //replace this ip address with the ip address (remember ipconfig)
 const int espport= 3000;
   
-SocketIoClient webSocketClient;
+//SocketIoClient webSocketClient;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval=300; //interval for sending data to the websocket server in ms
 
 // Use WiFiClient class to create TCP connections
-WiFiClient client;
+//WiFiClient client;
 
 
 
 void setup() {
-  Serial.begin(115200); //depends on what you set it to  
-  dht.begin();
-
-  delay(10);
-
+  Serial.begin(9600); //depends on what you set it to  
+/*
   // We start by connecting to a WiFi network
 
   Serial.println();
@@ -61,11 +57,27 @@ void setup() {
 
   delay(1000);//3000
   
-wsconnect();
-//  wifi_set_sleep_type(LIGHT_SLEEP_T);
+  wsconnect();
+  //  wifi_set_sleep_type(LIGHT_SLEEP_T);
+  */
+}
 
 void loop() {
+  delay(1000);
+  float h = dht.readHumidity();
+  // Read temperature as Celsius (the default)
+  float t = dht.readTemperature();
 
+  if (isnan(h) || isnan(t)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+
+  Serial.print("Humidity: ");
+  Serial.println(h);
+  Serial.print("Temperature: ");
+  Serial.println(t);
+/*
   if (client.connected()) {
     currentMillis=millis(); 
     webSocketClient.getData(data); 
@@ -78,18 +90,21 @@ void loop() {
         previousMillis = currentMillis;
            //***************************************SET DATA HERE******************************************
            data[0] = dht.readHumidity();
+           data[1] = dht.readTemperature();
+        JsonObject& info= jsonBuffer.createObject();
+        info["humidity"] = data[0];
+        info["temperature"] = data[1];
         
-        webSocketClient.emit("updateData", data);
+        webSocketClient.emit("updata", myJson);
         }
       }
       else{
-    }
+    }*/
     delay(5);
 
   }
 
-//*********************************************************************************************************************
-//***************function definitions**********************************************************************************
+/*
 void wsconnect(){
   // Connect to the websocket server
   if (client.connect(host, espport)) {
@@ -122,3 +137,4 @@ void wsconnect(){
     handshakeFailed=1;
   }
 }
+*/
