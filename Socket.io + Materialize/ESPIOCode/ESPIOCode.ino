@@ -1,7 +1,7 @@
 /*******************Esp8266_Websocket.ino****************************************/
 
-#include <esp8266wifi.h> 
-#include <websocketclient.h> //remember to add library
+#include <ESP8266WiFi.h> 
+#include <WebSocketClient.h> //remember to add library
 #include <SocketIoClient.h>
 #include "DHT.h"
 #include <ArduinoJson.h>
@@ -35,9 +35,7 @@ WiFiClient client;
 
 
 void setup() {
-  Serial.begin(115200); //depends on what you set it to
-    pinMode(readPin, INPUT);     // Initialize the LED_BUILTIN pin as an output
-  
+  Serial.begin(115200); //depends on what you set it to  
   dht.begin();
 
   delay(10);
@@ -80,7 +78,6 @@ void loop() {
         previousMillis = currentMillis;
            //***************************************SET DATA HERE******************************************
            data[0] = dht.readHumidity();
-           data[1] = 
         
         webSocketClient.emit("updateData", data);
         }
