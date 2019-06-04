@@ -49,12 +49,12 @@ void setup() {
     //Serial.print(".");
   //}
   Serial.println("");
-  Serial.println("WiFi connected");
+  //Serial.println("WiFi connected");
   
   // Starting the web server
   //server.begin();
-  Serial.println("Web server running. Waiting for the ESP IP...");
-  delay(10000);
+  //Serial.println("Web server running. Waiting for the ESP IP...");
+  //delay(10000);
   
   // Printing the ESP IP address
   //Serial.println(WiFi.localIP());
@@ -76,18 +76,21 @@ void loop() {
         //if (c == '\n' && blank_line) {
             // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
             float h = dht.readHumidity();
+            delay(2000);
             // Read temperature as Celsius (the default)
             float t = dht.readTemperature();
+            delay(2000);
             // Read temperature as Fahrenheit (isFahrenheit = true)
             float f = dht.readTemperature(true);
+            delay(2000);
             // Check if any reads failed and exit early (to try again).
             if (isnan(h) || isnan(t) || isnan(f)) {
               Serial.println("Failed to read from DHT sensor!");
-              strcpy(celsiusTemp,"Failed");
-              strcpy(fahrenheitTemp, "Failed");
-              strcpy(humidityTemp, "Failed");         
-          //  }
-           // else{
+              //strcpy(celsiusTemp,"Failed");
+             // strcpy(fahrenheitTemp, "Failed");
+              //strcpy(humidityTemp, "Failed");         
+            }
+            //else{
               // Computes temperature values in Celsius + Fahrenheit and Humidity
               float hic = dht.computeHeatIndex(t, h, false);       
               dtostrf(hic, 6, 2, celsiusTemp);             
@@ -120,7 +123,7 @@ void loop() {
          //   }
            
         
-      }
+      
     }  
     Serial.println("Client disconnected.");
   
