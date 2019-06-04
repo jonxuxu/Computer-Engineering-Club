@@ -2,6 +2,7 @@
 
 #include <ESP8266WiFi.h> 
 #include <SocketIOClient.h>
+#include <ArduinoJson.h>
 #include "DHT.h"
 
 #define DHTPIN D2     // what digital pin the DHT22 is conected to
@@ -21,6 +22,11 @@ SocketIOClient socket;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval = 1000; //interval for sending data to the websocket server in ms
+
+// JSON object setup
+StaticJsonBuffer<200> jsonBuffer;
+JsonObject& data = jsonBuffer.createObject();
+String JSON;
 
 void setup() {
   // Initilaizing objects
@@ -45,6 +51,7 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
+  // Socket connect
   if (!socket.connect(host, port)) {
     Serial.println("connection failed");
     return;
@@ -52,6 +59,10 @@ void setup() {
   if (socket.connected()){
     Serial.println("connected to server");
   }
+
+  // Set up json boi
+  data["temp"] = 0;
+  data["humidity"] = 0;
 }
 
 void loop() {
@@ -71,8 +82,14 @@ void loop() {
     Serial.println(h);
     Serial.print("Temperature: ");
     Serial.println(t);
-  
-    socket.emit("temp", String(t));
-    socket.emit("humidity", String(h));
+
+    // Run when connected to wifi and host
+    if (socket.connected()){ 
+      JSON = "";
+      data["temp"] = t;
+      data["humidity"] = h;
+      data.printTo(JSON);
+      socket.emit("updateData", JSON);
+    }
   }
 }

@@ -16,9 +16,6 @@ var io = socketio(server);
 // Serve the static website
 app.use(express.static('public'));
 
-// Storage variables
-var data = '{"temperature" : 420, "humidity" : "69"}';
-
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
@@ -29,19 +26,11 @@ io.on('connection', socket => {
   socket.on('disconnect', function(){
     console.log('User disconnected: ' + socket.id);
   });
-  socket.on('temp', data => {
-    console.log("Temperature input: " + data);
-    data.temperature = parseInt(data);
-    //socket.broadcast.emit('updateData', data);
-  });
-  socket.on('humidity', data => {
-    console.log("Humidity input: " + data);
-    data.humidity = parseInt(data);
-    //socket.broadcast.emit('updateData', data);
-  });
-  socket.on('getData', ()=>{
-    console.log("Someone requested data");
-    socket.emit('updateData', data);
+  socket.on('updateData', data => {
+    console.log("New data: ");
+    console.log("Temp: " + data.temp);
+    console.log("Humidity: " + data.humidity);
+    socket.broadcast.emit('updateData', data);
   });
 });
 
